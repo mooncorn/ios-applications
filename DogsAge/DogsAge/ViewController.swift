@@ -27,18 +27,17 @@ class ViewController: UIViewController {
     
     @IBAction func btnCheckInOutTouchUpInside(_ sender: Any) {
         
-        if let age = Int(txtAge.text!) {
-            if (age >= 1 && age <= 20) {
-                let ageHuman = calculateDogsAge(age)
-                lblDogAge.text = "Your dog's age in human age is \(ageHuman)"
-                lblDogAge.isHidden = false
-            } else {
-                Toast.ok(view: self, title: "Oops!", message: "Please, enter a valid age between 1 and 20 years!", handler: nil)
-            }
-        } else {
-            Toast.ok(view: self, title: "Oops!", message: "Please, enter a valid number!", handler: nil)
+//        if let age = Int(txtAge.text!), (age >= 1 && age <= 20) {
+//        if let age = Int(txtAge.text!), (1...20).contains(age) {
+        
+        guard let age = Int(txtAge.text!), (1...20).contains(age) else {
+            Toast.ok(view: self, title: "Oops!", message: "Please, enter a number between 1 and 20!", handler: nil)
+            return
         }
         
+        let ageHuman = calculateDogsAge(age)
+        lblDogAge.text = "Your dog's age in human age is \(ageHuman)"
+        lblDogAge.isHidden = false
     }
 }
 
