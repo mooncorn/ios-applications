@@ -25,4 +25,8 @@ class Student {
         Student.lastUserId += 1
         return Student.lastUserId
     }
+    
+    func toString() -> String {
+        return "ID: \(id), Name: \(name), Email: \(email)"
+    }
 }

@@ -8,6 +8,7 @@
 import Foundation
 
 enum Segue {
-    static let toManageStudentViewController = "toManageStudentViewController"
+    static let toStudentInfoViewControllerEditing = "toStudentInfoViewControllerEditing"
+    static let toStudentInfoViewControllerAdding = "toStudentInfoViewControllerAdding"
     static let toStudentListViewController = "toStudentListViewController"
 }

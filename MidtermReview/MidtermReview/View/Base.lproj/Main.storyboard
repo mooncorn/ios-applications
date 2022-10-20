@@ -98,6 +98,16 @@
                                 <rect key="frame" x="0.0" y="145" width="414" height="701"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="Fd0-O6-lts">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fd0-O6-lts" id="QGG-aO-PEL">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mxG-fD-n1x">
                                 <rect key="frame" x="71" y="116" width="273" height="21"/>
@@ -114,15 +124,20 @@
                         <rightBarButtonItems>
                             <barButtonItem style="plain" systemItem="add" id="ZoU-UX-x5h">
                                 <connections>
-                                    <segue destination="peR-jP-OVD" kind="show" identifier="toManageStudentViewController" id="FTg-yw-rru"/>
+                                    <segue destination="peR-jP-OVD" kind="show" identifier="toStudentInfoViewControllerAdding" id="FTg-yw-rru"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem style="plain" systemItem="refresh" id="Rxs-i1-yah"/>
+                            <barButtonItem style="plain" systemItem="refresh" id="Rxs-i1-yah">
+                                <connections>
+                                    <action selector="btnRefreshTouchUpInside:" destination="jJV-Cb-wYp" id="fic-ra-bO8"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="lblEmail" destination="mxG-fD-n1x" id="lac-my-U5K"/>
                         <outlet property="tableStudent" destination="RXi-hk-54v" id="l5d-rf-bb8"/>
+                        <segue destination="peR-jP-OVD" kind="show" identifier="toStudentInfoViewControllerEditing" id="fdE-6j-G3Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ajd-kN-Lre" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -143,15 +158,15 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9m-lz-szR">
-                                <rect key="frame" x="74" y="133" width="41" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9m-lz-szR">
+                                <rect key="frame" x="74" y="133" width="45" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="trx-IV-8o7">
-                                <rect key="frame" x="74" y="207" width="74" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="trx-IV-8o7">
+                                <rect key="frame" x="74" y="207" width="41" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -171,20 +186,35 @@
                                 <state key="normal" title="Delete">
                                     <color key="titleColor" systemColor="labelColor"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnDeleteTouchUpInside:" destination="peR-jP-OVD" eventType="touchUpInside" id="fI1-H0-12J"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hQH-uB-I3R"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="Manage Student" id="1xH-Th-Rvp">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="MWu-jk-Bw1"/>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="MWu-jk-Bw1">
+                            <connections>
+                                <action selector="btnSaveTouchUpInside:" destination="peR-jP-OVD" id="m4G-PZ-2ln"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="btnDelete" destination="0kH-uy-obz" id="hPH-pT-JX5"/>
+                        <outlet property="txtEmail" destination="cWX-7c-pQq" id="sZ0-yd-mIh"/>
+                        <outlet property="txtName" destination="x1z-cv-nAq" id="iYs-QS-tqg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U1Z-RH-8a2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2830.434782608696" y="91.741071428571431"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="fdE-6j-G3Q"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

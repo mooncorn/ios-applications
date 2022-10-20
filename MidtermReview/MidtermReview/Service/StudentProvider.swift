@@ -34,6 +34,13 @@ class StudentProvider {
             }
         }
     }
+    
+    static func generateMockData() {
+        for i in (0...9) {
+            let student = Student(name: "Student #\(i+1)", email: "student\(i+1)@gmail.com")
+            StudentProvider.save(student: student)
+        }
+    }
 }
 
 class StudentProviderTest {
