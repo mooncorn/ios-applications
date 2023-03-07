@@ -7,19 +7,17 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UICoordinatePanelDelegate {
 
     var addressPanel : UIAddressPanel = UIAddressPanel()
     var coordinatePanel : UICoordinatePanel = UICoordinatePanel()
-    var weatherPanel : UIWeatherPanel = UIWeatherPanel()
+    var weatherPanel : UIWeatherPanel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        view.addSubview(addressPanel)
-        view.addSubview(coordinatePanel)
-        view.addSubview(weatherPanel)
+        view.addSubviews(addressPanel, coordinatePanel)
         
         applyConstraints()
         
@@ -27,17 +25,14 @@ class ViewController: UIViewController {
         addressPanel.userImage = UIImage(systemName: "xmark")
         addressPanel.address = "1696 Dezery St, H1W 2R7, Montreal, Canada"
         
-        coordinatePanel.coordinateImage = UIImage(systemName: "circle.inset.filled")
+        coordinatePanel.coordinateImage = UIImage(systemName: "target")
         coordinatePanel.backgroundColor = .red.withAlphaComponent(0.3)
         coordinatePanel.latitude = 0.0
         coordinatePanel.longitude = 0.0
         
-        weatherPanel.backgroundColor = .green.withAlphaComponent(0.3)
-        weatherPanel.image = UIImage(systemName: "sun.min.fill")?.withTintColor(.systemYellow, renderingMode: .alwaysOriginal)
-        weatherPanel.temperature = "2"
-        weatherPanel.condition = "Sunny"
-        weatherPanel.feelsLike = "3"
-        weatherPanel.secondsShowingPanel = 4
+
+        
+        coordinatePanel.delegate = self
     }
     
     func applyConstraints() {
@@ -52,12 +47,26 @@ class ViewController: UIViewController {
         coordinatePanel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         coordinatePanel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         coordinatePanel.heightAnchor.constraint(equalToConstant: 100).isActive = true
+    }
+    
+    func coordinatePanelButtonTaped(_ sender: Any?) {
         
-        weatherPanel.translatesAutoresizingMaskIntoConstraints = false
-        weatherPanel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 5).isActive = true
-        weatherPanel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 105).isActive = true
-        weatherPanel.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        weatherPanel.heightAnchor.constraint(equalToConstant: 280).isActive = true
+        weatherPanel = UIWeatherPanel()
+        view.addSubview(weatherPanel!)
+        
+        weatherPanel!.backgroundColor = .green.withAlphaComponent(0.3)
+        weatherPanel!.image = UIImage(systemName: "sun.min.fill")?.withTintColor(.systemYellow, renderingMode: .alwaysOriginal)
+        weatherPanel!.temperature = "2"
+        weatherPanel!.condition = "Sunny"
+        weatherPanel!.feelsLike = "3"
+        weatherPanel!.secondsShowingPanel = 4
+        
+        weatherPanel!.translatesAutoresizingMaskIntoConstraints = false
+        weatherPanel!.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 5).isActive = true
+        weatherPanel!.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 105).isActive = true
+        weatherPanel!.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        weatherPanel!.heightAnchor.constraint(equalToConstant: 280).isActive = true
+        
     }
 }
 

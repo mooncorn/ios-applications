@@ -63,11 +63,9 @@ class UICoordinatePanel : UIView {
         return img
     }()
     
-    public var latitude : Double? {
+    public var latitude : Double = 0 {
         didSet {
-            if latitude != nil {
-                lblLatitude.text = String(latitude!)
-            }
+            lblLatitude.text = String(format: "%.6f", latitude)
         }
     }
     
@@ -77,13 +75,9 @@ class UICoordinatePanel : UIView {
         }
     }
     
-    public var longitude : Double? {
+    public var longitude : Double = 0 {
         didSet {
-            if longitude == nil {
-                lblLongitude.text = ""
-            } else {
-                lblLongitude.text = String(longitude!)
-            }
+            lblLongitude.text = String(format: "%.6f", longitude)
         }
     }
     
