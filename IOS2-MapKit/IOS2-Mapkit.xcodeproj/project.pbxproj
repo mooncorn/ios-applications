@@ -10,6 +10,7 @@
 		631B31E229B000DD00383EED /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631B31E129B000DD00383EED /* API.swift */; };
 		631B31E429B000ED00383EED /* WeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631B31E329B000ED00383EED /* WeatherAPI.swift */; };
 		631B31E629B0011200383EED /* UIImageView_fetchImageFromURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631B31E529B0011200383EED /* UIImageView_fetchImageFromURL.swift */; };
+		631B57B829C2B50A0063F4FC /* CLLocationManager_getAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631B57B729C2B50A0063F4FC /* CLLocationManager_getAddress.swift */; };
 		639F0B5329AA7910009612FA /* UICoordinatePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639F0B5229AA7910009612FA /* UICoordinatePanel.swift */; };
 		639F0B5529AA93DB009612FA /* UIWeatherPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639F0B5429AA93DB009612FA /* UIWeatherPanel.swift */; };
 		BF28C295299D6D0700F92B3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF28C294299D6D0700F92B3A /* AppDelegate.swift */; };
@@ -27,6 +28,7 @@
 		631B31E129B000DD00383EED /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = API.swift; path = ../../../../../../../Downloads/Weather_API_Files_and_credential/API/API.swift; sourceTree = "<group>"; };
 		631B31E329B000ED00383EED /* WeatherAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherAPI.swift; path = ../../../../../../../Downloads/Weather_API_Files_and_credential/WeatherAPI/WeatherAPI.swift; sourceTree = "<group>"; };
 		631B31E529B0011200383EED /* UIImageView_fetchImageFromURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImageView_fetchImageFromURL.swift; path = ../../../../../../../Downloads/Weather_API_Files_and_credential/Source/Extension/UIImageView_fetchImageFromURL.swift; sourceTree = "<group>"; };
+		631B57B729C2B50A0063F4FC /* CLLocationManager_getAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CLLocationManager_getAddress.swift; path = ../../../../../Downloads/CLLocationManager_getAddress.swift; sourceTree = "<group>"; };
 		639F0B5229AA7910009612FA /* UICoordinatePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICoordinatePanel.swift; sourceTree = "<group>"; };
 		639F0B5429AA93DB009612FA /* UIWeatherPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWeatherPanel.swift; sourceTree = "<group>"; };
 		BF28C291299D6D0700F92B3A /* IOS2-Mapkit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IOS2-Mapkit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +74,7 @@
 		BF28C293299D6D0700F92B3A /* IOS2-Mapkit */ = {
 			isa = PBXGroup;
 			children = (
+				631B57B729C2B50A0063F4FC /* CLLocationManager_getAddress.swift */,
 				BF28C2AA299D6D5300F92B3A /* Service */,
 				BF28C2A9299D6D4000F92B3A /* CustomizedUI */,
 				BF28C2A8299D6D3300F92B3A /* Source */,
@@ -203,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF28C2B0299D6EFA00F92B3A /* UIView_enableTapGestureRecognizer.swift in Sources */,
+				631B57B829C2B50A0063F4FC /* CLLocationManager_getAddress.swift in Sources */,
 				BF28C2AE299D6DE900F92B3A /* UIView_addSubViews.swift in Sources */,
 				639F0B5329AA7910009612FA /* UICoordinatePanel.swift in Sources */,
 				BF28C299299D6D0700F92B3A /* ViewController.swift in Sources */,
