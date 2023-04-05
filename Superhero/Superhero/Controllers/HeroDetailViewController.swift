@@ -43,6 +43,10 @@ class HeroDetailViewController : UIViewController {
         return list
     }()
     
+    override func viewDidLayoutSubviews() {
+        setData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,9 +54,11 @@ class HeroDetailViewController : UIViewController {
             fatalError("Superhero property needs to be set")
         }
         
+        
+        
+        setData()
         addSubviews()
         applyConstraints()
-        setData()
     }
     
     func setData() {
@@ -101,13 +107,13 @@ class HeroDetailViewController : UIViewController {
         bcPowerstats.topAnchor.constraint(equalTo: lblHeroName.bottomAnchor, constant: 10).isActive = true
         bcPowerstats.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         bcPowerstats.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        bcPowerstats.heightAnchor.constraint(equalToConstant: 160).isActive = true
+        bcPowerstats.heightAnchor.constraint(equalToConstant: bcPowerstats.intrinsicContentSize.height).isActive = true
         print(bcPowerstats.sizeToFit())
 
         kvBiography.topAnchor.constraint(equalTo: bcPowerstats.bottomAnchor, constant: 10).isActive = true
         kvBiography.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         kvBiography.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        kvBiography.heightAnchor.constraint(equalToConstant: 230).isActive = true
+        kvBiography.heightAnchor.constraint(equalToConstant: kvBiography.intrinsicContentSize.height).isActive = true
     }
     
 }

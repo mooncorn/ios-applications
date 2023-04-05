@@ -31,6 +31,7 @@ class KeyValuesListUI : UIView {
     
     private var lblNoData: UILabel = {
         let lbl = UILabel()
+        lbl.tag = 2
         lbl.textAlignment = .center
         lbl.font = .systemFont(ofSize: 12)
         lbl.textColor = .darkGray
@@ -39,6 +40,23 @@ class KeyValuesListUI : UIView {
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
+    
+    // i'm sure there's a better way to do this
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: 0.0, height: {            
+            if subviews.first(where: { v in v.tag == 2})?.isHidden == false {
+                return 80
+            }
+            
+            let valueLabels = subviews.filter({ v in v.tag == 1 })
+            
+            var heightForValuesLabels = 0.0
+            
+            valueLabels.forEach({ lbl in heightForValuesLabels = heightForValuesLabels + lbl.safeAreaLayoutGuide.layoutFrame.height})
+            
+            return heightForValuesLabels + Double(valueLabels.count * 5) + 35
+        }())
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -55,19 +73,12 @@ class KeyValuesListUI : UIView {
         addSubview(lblNoData)
         
         applyConstraints()
-        
-        if data.isEmpty == true {
-            lblNoData.isHidden = false
-        }
+        generateGraph()
     }
     
     private func generateGraph() {
-        if data.isEmpty == true {
-            lblNoData.isHidden = false
-            return
-        } else {
-            lblNoData.isHidden = true
-        }
+        lblNoData.isHidden = !data.isEmpty
+        guard !data.isEmpty else { return }
         
         var topView = lblTitle
         
@@ -87,6 +98,7 @@ class KeyValuesListUI : UIView {
             
             let lblEntryValues: UILabel = {
                 let lbl = UILabel()
+                lbl.tag = 1
                 lbl.textAlignment = .left
                 lbl.font = .systemFont(ofSize: 12, weight: .light)
                 lbl.numberOfLines = values.count
