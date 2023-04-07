@@ -7,46 +7,41 @@
 
 import UIKit
 
-/*
-  A customized view that displays a bar graph. It renders a graph based on data provided.
- */
 class BarChartUI : UIView {
-    
-    /*
-     Title of the graph.
-     */
+
     public var title : String {
         didSet {
             lblTitle.text = title
         }
     }
-    
-    /*
-     An array of sets. One set defines one entry for the bar graph. As soon as the data is set, the graph will be generated.
-     String: heading text for the entry
-     UIColor: background color for the progress bar view
-     Int: value that determines the width of the progress bar
-    */
-    public var data : [(String, UIColor, Int)] {
+ 
+    public var data : [(String?, UIColor?, Int?)] {
         didSet {
             generateGraph()
         }
     }
     
-    /*
-     Label that displays the title of the graph.
-     */
+    override init(frame: CGRect) {
+        title = ""
+        data = []
+        super.init(frame: frame)
+        
+        generateGraph()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private var lblTitle : UILabel = {
         let lbl = UILabel()
         lbl.textAlignment = .left
         lbl.font = .boldSystemFont(ofSize: 14)
+        lbl.text = "Title"
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
     
-    /*
-     Label that is shown when there is no data.
-     */
     private var lblNoData : UILabel = {
         let lbl = UILabel()
         lbl.tag = 2
@@ -66,31 +61,21 @@ class BarChartUI : UIView {
             }
             
             let valueLabels = subviews.filter({ v in v.tag == 1 })
-            
             var heightForValuesLabels = 0.0
-            
             valueLabels.forEach({ lbl in heightForValuesLabels = heightForValuesLabels + lbl.safeAreaLayoutGuide.layoutFrame.height})
-            
             return heightForValuesLabels + Double(valueLabels.count * 5) + 35
         }())
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override init(frame: CGRect) {
-        self.title = "Title"
-        self.data = []
-        super.init(frame: frame)
+    private func generateGraph() {
+        // remove all subviews
+        subviews.forEach({v in v.removeFromSuperview()})
         
+        // add title and no data labels
         addSubviews(lblTitle, lblNoData)
         applyConstraints()
-        
-        generateGraph()
-    }
-    
-    private func generateGraph() {
+
+        // control no data label display
         lblNoData.isHidden = !data.isEmpty
         guard !data.isEmpty else { return }
         
@@ -99,18 +84,57 @@ class BarChartUI : UIView {
         for entry in data {
             let headingText = entry.0
             let barColor = entry.1
-            let value = Utils.convertTo0To100Range(num: entry.2)
+            let value = Utils.convertTo0To100Range(num: entry.2 ?? 0)
             
-            let lblHeading = makeHeadingLabel(headingText)
-            let lblValue = makeValueLabel(String(value))
-            let viewProgressBar = makeProgressBar(barColor)
+            let lblHeading : UILabel = {
+                let lbl = UILabel()
+                lbl.textAlignment = .left
+                lbl.font = .systemFont(ofSize: 12)
+                lbl.text = headingText
+                lbl.translatesAutoresizingMaskIntoConstraints = false
+                return lbl
+            }()
+            
+            let lblValue : UILabel = {
+                let lbl = UILabel()
+                lbl.tag = 1
+                lbl.textAlignment = .right
+                lbl.font = .systemFont(ofSize: 12)
+                lbl.textColor = .darkGray
+                lbl.text = String(value)
+                lbl.translatesAutoresizingMaskIntoConstraints = false
+                return lbl
+            }()
+            
+            let viewProgressBar : UIView = {
+                let view = UIView()
+                view.backgroundColor = barColor
+                view.translatesAutoresizingMaskIntoConstraints = false
+                return view
+            }()
             
             addSubviews(lblHeading, lblValue, viewProgressBar)
             
-            applyConstraintsToRowElements(lblHeading, lblValue, viewProgressBar, value, topView)
+            lblHeading.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 5).isActive = true
+            lblHeading.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
+            lblHeading.widthAnchor.constraint(equalToConstant: 100).isActive = true
+            
+            lblValue.topAnchor.constraint(equalTo: lblHeading.topAnchor).isActive = true
+            lblValue.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
+            lblValue.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            
+            let maxWidth = safeAreaLayoutGuide.layoutFrame.width - 30 - lblHeading.safeAreaLayoutGuide.layoutFrame.width - lblValue.safeAreaLayoutGuide.layoutFrame.width
+            
+            viewProgressBar.topAnchor.constraint(equalTo: lblHeading.topAnchor).isActive = true
+            viewProgressBar.leadingAnchor.constraint(equalTo: lblHeading.trailingAnchor, constant: 5).isActive = true
+            viewProgressBar.heightAnchor.constraint(equalTo: lblHeading.heightAnchor).isActive = true
+            viewProgressBar.widthAnchor.constraint(equalToConstant: (CGFloat(value) * maxWidth) / 100).isActive = true
             
             topView = lblHeading
         }
+        
+        // set own height
+        heightAnchor.constraint(equalToConstant: intrinsicContentSize.height).isActive = true
     }
     
     private func applyConstraints() {
@@ -121,49 +145,5 @@ class BarChartUI : UIView {
         lblNoData.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
         lblNoData.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
         lblNoData.topAnchor.constraint(equalTo: lblTitle.bottomAnchor, constant: 10).isActive = true
-    }
-    
-    private func makeHeadingLabel( _ headingText : String) -> UILabel {
-        let lbl = UILabel()
-        lbl.textAlignment = .left
-        lbl.font = .systemFont(ofSize: 12)
-        lbl.text = headingText
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
-    }
-    
-    private func makeValueLabel( _ value : String) -> UILabel {
-        let lbl = UILabel()
-        lbl.tag = 1
-        lbl.textAlignment = .right
-        lbl.font = .systemFont(ofSize: 12)
-        lbl.textColor = .darkGray
-        lbl.text = value
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
-    }
-    
-    private func makeProgressBar( _ color: UIColor) -> UIView {
-        let view = UIView()
-        view.backgroundColor = color
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }
-    
-    private func applyConstraintsToRowElements(_ lblHeading: UILabel, _ lblValue: UILabel, _ viewProgressBar: UIView, _ value: Int, _ topView: UILabel) {
-        lblHeading.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 5).isActive = true
-        lblHeading.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
-        lblHeading.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        
-        lblValue.topAnchor.constraint(equalTo: lblHeading.topAnchor).isActive = true
-        lblValue.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
-        lblValue.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        
-        let maxWidth = safeAreaLayoutGuide.layoutFrame.width - 30 - lblHeading.safeAreaLayoutGuide.layoutFrame.width - lblValue.safeAreaLayoutGuide.layoutFrame.width
-        
-        viewProgressBar.topAnchor.constraint(equalTo: lblHeading.topAnchor).isActive = true
-        viewProgressBar.leadingAnchor.constraint(equalTo: lblHeading.trailingAnchor, constant: 5).isActive = true
-        viewProgressBar.heightAnchor.constraint(equalTo: lblHeading.heightAnchor).isActive = true
-        viewProgressBar.widthAnchor.constraint(equalToConstant: (CGFloat(value) * maxWidth) / 100).isActive = true
     }
 }

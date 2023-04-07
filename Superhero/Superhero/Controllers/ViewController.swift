@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
-
+    
     var data : [Superhero] = [] {
         didSet {
             let resultString = data.count == 1 ? "result" : "results"
@@ -18,16 +18,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    var selectedSuperhero : Superhero?
+    private var selectedSuperhero : Superhero?
     
-    let searchBar : UISearchBar = {
+    private let searchBar : UISearchBar = {
         let sb = UISearchBar()
         sb.translatesAutoresizingMaskIntoConstraints = false
         sb.placeholder = "Search for a superhero..."
         return sb
     }()
     
-    let lblResultCount : UILabel = {
+    private let lblResultCount : UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.textColor = .darkGray
@@ -35,47 +35,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return lbl
     }()
     
-    let resultList : UITableView = {
+    private let resultList : UITableView = {
         let tb = UITableView()
         tb.translatesAutoresizingMaskIntoConstraints = false
         tb.rowHeight = 75
         return tb
     }()
     
-//    let list = {
-//        let kv = KeyValuesListUI()
-//        kv.translatesAutoresizingMaskIntoConstraints = false
-//        kv.backgroundColor = .lightGray
-//        kv.title = "Testing"
-//        kv.data = [
-//            ("Full name", ["fsdafas", "fdsafasf"]),
-//            ("Alter egos", ["fsdfsdaf"]),
-//            ("Aliases", ["fdsafsd", "fdsafs"]),
-//            ("Place of birth", ["fdsafsd", "fdsafs"]),
-//            ("First appearance", ["fdsafsd", "fdsafs"]),
-//            ("Publisher", ["fdsafsd", "fdsafs"]),
-//            ("Alignment", ["fdsafsd", "fdsafs", "fdsafsd", "fdsafs"])
-//        ]
-//        return kv
-//    }()
-//    
-//    let bars = {
-//        let kv = BarChartUI()
-//        kv.translatesAutoresizingMaskIntoConstraints = false
-//        kv.backgroundColor = .lightGray
-//        kv.title = "Testing"
-//        kv.data = [
-//            ("Intelligence", UIColor.blue, 80),
-//            ("Strength", UIColor.red, 70),
-//            ("Speed", UIColor.systemYellow, 100),
-//            ("Durability", UIColor.gray, 33),
-//            ("Power", UIColor.orange, 9),
-//            ("Combat", UIColor.purple, 99),
-//        ]
-//        return kv
-//    }()
-    
-    
+//    private let menu = NavCardUI()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -87,17 +55,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         resultList.delegate = self
         resultList.dataSource = self
         
-        addSubviews()
+        view.addSubviews(searchBar, lblResultCount, resultList)
         applyConstraints()
-    }
-    
-    private func addSubviews() {
-        view.addSubview(searchBar)
-        view.addSubview(lblResultCount)
-        view.addSubview(resultList)
-        
-//        view.addSubview(list)
-//        view.addSubview(bars)
     }
 
     private func applyConstraints() {
@@ -113,18 +72,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         resultList.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         resultList.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         resultList.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-//
-//        list.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-//        list.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-//        list.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-//        list.heightAnchor.constraint(equalToConstant: list.intrinsicContentSize.height).isActive = true
-//
-//        bars.topAnchor.constraint(equalTo: list.bottomAnchor, constant: 10).isActive = true
-//        bars.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-//        bars.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-//        bars.heightAnchor.constraint(equalToConstant: bars.intrinsicContentSize.height).isActive = true
-//        print(bars.intrinsicContentSize)
-
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

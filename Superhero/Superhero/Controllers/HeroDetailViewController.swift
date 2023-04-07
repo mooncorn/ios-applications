@@ -8,7 +8,7 @@
 import UIKit
 
 class HeroDetailViewController : UIViewController {
-    
+
     public var superhero : Superhero?
     
     private let lblHeroName : UILabel = {
@@ -31,7 +31,6 @@ class HeroDetailViewController : UIViewController {
         let chart = BarChartUI()
         chart.translatesAutoresizingMaskIntoConstraints = false
         chart.title = "Powerstats"
-//        chart.backgroundColor = .gray
         return chart
     }()
     
@@ -39,13 +38,10 @@ class HeroDetailViewController : UIViewController {
         let list = KeyValuesListUI()
         list.translatesAutoresizingMaskIntoConstraints = false
         list.title = "Biography"
-//        list.backgroundColor = .gray
         return list
     }()
     
-    override func viewDidLayoutSubviews() {
-        setData()
-    }
+//    private let scrollView = UIScrollView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,25 +50,21 @@ class HeroDetailViewController : UIViewController {
             fatalError("Superhero property needs to be set")
         }
         
-        
-        
-        setData()
-        addSubviews()
+        view.addSubviews(imgHero, lblHeroName, bcPowerstats, kvBiography)
         applyConstraints()
-    }
-    
-    func setData() {
+        
         lblHeroName.text = superhero!.name
         imgHero.load(url: URL(string: superhero!.image.url)!)
         
         let ps = superhero!.powerstats
+        // setting data after applying constraints so that progress bars know what width to use
         bcPowerstats.data = [
-            ("Intelligence", UIColor.blue, Int(ps.intelligence)!),
-            ("Strength", UIColor.red, Int(ps.strength)!),
-            ("Speed", UIColor.systemYellow, Int(ps.speed)!),
-            ("Durability", UIColor.gray, Int(ps.durability)!),
-            ("Power", UIColor.orange, Int(ps.power)!),
-            ("Combat", UIColor.purple, Int(ps.combat)!),
+            ("Intelligence", UIColor.blue, Int(ps.intelligence)),
+            ("Strength", UIColor.red, Int(ps.strength)),
+            ("Speed", UIColor.systemYellow, Int(ps.speed)),
+            ("Durability", UIColor.gray, Int(ps.durability)),
+            ("Power", UIColor.orange, Int(ps.power)),
+            ("Combat", UIColor.purple, Int(ps.combat)),
         ]
         
         let bio = superhero!.biography
@@ -85,13 +77,6 @@ class HeroDetailViewController : UIViewController {
             ("Publisher", [bio.publisher]),
             ("Alignment", [bio.alignment])
         ]
-    }
-    
-    func addSubviews() {
-        view.addSubview(imgHero)
-        view.addSubview(lblHeroName)
-        view.addSubview(bcPowerstats)
-        view.addSubview(kvBiography)
     }
     
     func applyConstraints() {
@@ -107,13 +92,9 @@ class HeroDetailViewController : UIViewController {
         bcPowerstats.topAnchor.constraint(equalTo: lblHeroName.bottomAnchor, constant: 10).isActive = true
         bcPowerstats.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         bcPowerstats.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        bcPowerstats.heightAnchor.constraint(equalToConstant: bcPowerstats.intrinsicContentSize.height).isActive = true
-        print(bcPowerstats.sizeToFit())
 
         kvBiography.topAnchor.constraint(equalTo: bcPowerstats.bottomAnchor, constant: 10).isActive = true
         kvBiography.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         kvBiography.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        kvBiography.heightAnchor.constraint(equalToConstant: kvBiography.intrinsicContentSize.height).isActive = true
     }
-    
 }

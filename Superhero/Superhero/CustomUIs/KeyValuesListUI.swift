@@ -9,13 +9,13 @@ import UIKit
 
 class KeyValuesListUI : UIView {
     
-    public var title: String {
+    public var title: String = "" {
         didSet {
             lblTitle.text = title
         }
     }
     
-    public var data: [(String, [String])] {
+    public var data: [(String, [String])] = [] {
         didSet {
             generateGraph()
         }
@@ -49,34 +49,21 @@ class KeyValuesListUI : UIView {
             }
             
             let valueLabels = subviews.filter({ v in v.tag == 1 })
-            
             var heightForValuesLabels = 0.0
-            
             valueLabels.forEach({ lbl in heightForValuesLabels = heightForValuesLabels + lbl.safeAreaLayoutGuide.layoutFrame.height})
-            
             return heightForValuesLabels + Double(valueLabels.count * 5) + 35
         }())
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override init(frame: CGRect) {
-        self.title = "Title"
-        self.data = []
-        super.init(frame: frame)
-  
-        clipsToBounds = true
-        
-        addSubview(lblTitle)
-        addSubview(lblNoData)
-        
-        applyConstraints()
-        generateGraph()
-    }
-    
     private func generateGraph() {
+        // remove all subviews
+        subviews.forEach({v in v.removeFromSuperview()})
+        
+        // add title and no data labels
+        addSubviews(lblTitle, lblNoData)
+        applyConstraints()
+
+        // control no data label display
         lblNoData.isHidden = !data.isEmpty
         guard !data.isEmpty else { return }
         
@@ -102,11 +89,10 @@ class KeyValuesListUI : UIView {
                 lbl.textAlignment = .left
                 lbl.font = .systemFont(ofSize: 12, weight: .light)
                 lbl.numberOfLines = values.count
-                lbl.text = values.joined(separator: "\n")
+                lbl.text = values.contains(where: {v in v.isEmpty}) ? "-" : values.joined(separator: "\n")
                 lbl.translatesAutoresizingMaskIntoConstraints = false
                 return lbl
             }()
-        
             
             // add ui elements to the view
             addSubview(lblEntryHeading)
@@ -124,6 +110,9 @@ class KeyValuesListUI : UIView {
             // set top view as current entry title
             topView = lblEntryValues
         }
+        
+        // set own height
+        heightAnchor.constraint(equalToConstant: intrinsicContentSize.height).isActive = true
     }
     
     private func applyConstraints() {
