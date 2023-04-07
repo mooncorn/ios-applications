@@ -61,7 +61,15 @@ class KeyValuesListUI : UIView {
         
         // add title and no data labels
         addSubviews(lblTitle, lblNoData)
-        applyConstraints()
+        
+        // apply constraints
+        lblTitle.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
+        lblTitle.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
+        lblTitle.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        
+        lblNoData.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
+        lblNoData.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
+        lblNoData.topAnchor.constraint(equalTo: lblTitle.bottomAnchor, constant: 10).isActive = true
 
         // control no data label display
         lblNoData.isHidden = !data.isEmpty
@@ -88,7 +96,7 @@ class KeyValuesListUI : UIView {
                 lbl.tag = 1
                 lbl.textAlignment = .left
                 lbl.font = .systemFont(ofSize: 12, weight: .light)
-                lbl.numberOfLines = values.count
+                lbl.numberOfLines = Int.max
                 lbl.text = values.contains(where: {v in v.isEmpty}) ? "-" : values.joined(separator: "\n")
                 lbl.translatesAutoresizingMaskIntoConstraints = false
                 return lbl
@@ -114,16 +122,5 @@ class KeyValuesListUI : UIView {
         // set own height
         heightAnchor.constraint(equalToConstant: intrinsicContentSize.height).isActive = true
     }
-    
-    private func applyConstraints() {
-        lblTitle.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
-        lblTitle.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
-        lblTitle.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-        
-        lblNoData.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 10).isActive = true
-        lblNoData.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -10).isActive = true
-        lblNoData.topAnchor.constraint(equalTo: lblTitle.bottomAnchor, constant: 10).isActive = true
-    }
-    
 }
 

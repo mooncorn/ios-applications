@@ -41,8 +41,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tb.rowHeight = 75
         return tb
     }()
-    
-//    private let menu = NavCardUI()
 
     override func viewDidLoad() {
         super.viewDidLoad()
